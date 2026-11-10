@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "studyos-learning-core"
 version = "0.2.0"
-description = "Evidence-first personal learning archive and review CLI"
+description = "为长期 AI 家教保存本地学习档案，跨会话接续进度、薄弱点、考核与复习"
 requires-python = ">=3.12"
 dependencies = []
 readme = "README.md"

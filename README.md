@@ -1,20 +1,84 @@
 # StudyOS Learning Core
 
-**把学习交给 AI，把学习事实留在自己手里。**
-**Learn with AI. Keep your learning records under your control.**
+**让 AI 像长期家教一样，了解你的学习经历，接着上一次继续教。**
 
-本地运行的学习档案、独立考核与间隔复习工具。AI 负责理解报告、整理知识点和设计考核；Python 负责校验、保存、审计与备份；SQLite 保存权威状态，Markdown 交接帮助新 AI 会话接续进度。
+StudyOS 是一套面向高效学习的 AI 家教辅助工具。它把你的学习进度、理解情况、原始作答、错题、薄弱点和复习记录持续保存在本地，让 AI 在新的会话中也能查到过去的学习情况，据此继续讲解、针对性练习和检验掌握程度。
 
-A local-first learning archive, assessment, and spaced-review toolkit. Your AI assistant interprets reports and prepares assessments; Python validates, stores, audits, and backs up evidence. SQLite is the source of truth, with generated Markdown handoffs for continuity between AI sessions.
+你负责选择学什么、学多少，AI 负责结合教材和你的学习记录进行辅导，程序负责把每次真实学习留下来。随着记录积累，你得到的是一份能跨会话使用、持续更新的个人学习档案。
 
-本仓库只含程序、通用说明及合成测试。**不含作者的学习数据库、报告、教材、个人配置或历史快照。** 测试中的答案、日期、路径和成绩均为合成数据。
+## 为什么需要它
 
-This repository contains software, reusable documentation, and synthetic tests only. **It includes no author's learning database, reports, textbooks, personal configuration, or historical snapshots.** Answers, dates, paths, and grades in tests are synthetic.
+用 AI 学习时，单个聊天窗口的上下文容量有限。聊得越久，越容易遇到这些问题：
 
-## 快速开始 / Quick start
+- 换一个窗口，得重新介绍自己的基础和学习进度。
+- 上次卡在哪里、哪些题做错了、什么内容还没真正理解，散落在旧聊天里。
+- AI 不清楚你之前的表现，可能反复讲已经会的内容，也可能把“听懂了”当成“掌握了”。
+- 学过的知识缺少持续跟踪，复习和考核容易与实际学习脱节。
 
-需要 Python 3.12+；运行库仅使用 Python 标准库。建议在隔离环境安装。
-Requires Python 3.12+. Runtime code uses only the Python standard library. An isolated environment is recommended.
+StudyOS 把长期学习记录保存在聊天窗口之外。新会话先读取当前进度和学习断点，需要进一步了解时，再查询相关的旧作答、错因和考核记录。这样就能在有限上下文中恢复必要的学习背景，减少重开窗口后的信息丢失和重复沟通。
+
+## 主要学习特点
+
+### 1. 跨会话接续，学习不必从头交代
+
+系统按科目生成交接摘要，保留已学内容、当前断点和关键未验证项。即使换窗口，也能让 AI 先知道“学到哪里了、理解到什么程度、还有什么没解决”，再继续辅导。
+
+完整记录仍在本地，AI 可以按需要查阅。它不需要把全部聊天历史塞进一个窗口，也不需要依赖某个模型自带的记忆功能。
+
+### 2. 根据你的实际表现，有针对性地辅导
+
+学习档案可以保留你怎么回答、哪里出错、接受过什么提示、后来如何纠正，以及适合你的讲解偏好。AI 可以据此分析理解障碍，调整解释方式，围绕薄弱环节设计练习，减少重复询问基础情况。
+
+例如，上次你已经能解释概念，但独立应用还不稳定；新会话读取相关记录后，就有依据把重点放在应用和迁移上。是否继续、练多少，仍由你决定。
+
+### 3. 跟着自己的教材学，知识点有据可查
+
+你可以接入自己的教材、大纲和习题，把知识点与依赖关系、教材版本、原文行号或 PDF 页码关联起来。AI 按当前知识点逐步展开必要资料，讲解和考核有明确依据。
+
+教材、大纲和原始报告都保留来源，方便回头核对，也便于后续补充相关知识。
+
+### 4. 区分“学过”“听懂”和“能独立做出来”
+
+课堂讲过、跟着提示答对，并不直接记为独立掌握。学习报告先记录真实进度；需要检验时，由 AI 预先保存考核蓝图，再根据你的真实独立作答判断。
+
+原答、提示、判定和历次更正都能保留，便于发现“当时听懂了，换个题却不会”的情况，让后续辅导更有依据。
+
+### 5. 学习后持续跟踪，复习有记录
+
+有真实学习日期的记录会建立首轮复习提醒，后续按实际完成情况推进；错题、知识点和综合复习分别保留历史。
+
+默认间隔为完成日后 1、3、7、14、30、60、90 天；快速初始化为英语启用首次学习日后的 1、3、7、14、30 天节点。提醒保留到你决定执行、延期或取消，不强制当天考试。
+
+### 6. 本地实时更新，自己的学习数据自己保管
+
+每次归档学习报告、保存考核结果、完成复习或更正时长，相关记录都会写入本地，交接随之刷新，仪表盘可查看最新进度、待考核知识点、复习提醒和学习时长。
+
+学习数据库、原始报告和历史更正保存在你选择的目录，可以备份、验证和独立恢复。换一个 AI 会话时，这些数据仍然在。
+
+## 日常怎么用
+
+| 你在做什么 | AI 和程序如何配合 |
+| --- | --- |
+| 开始或继续学习 | AI 读取本科进度和断点，按需查阅旧记录及当前教材页，接续辅导。 |
+| 学完一段内容 | 你带回学习报告，档案助手保存原件，更新已学内容、理解情况和待验证项。 |
+| 想知道自己会不会 | 先保存考核蓝图，再逐题记录真实独立作答，判断掌握情况。 |
+| 想回顾薄弱点 | 查询错题、旧作答和复习提醒，由你选择本次复习内容。 |
+| 换一个聊天窗口 | 新窗口查询本地档案，读取必要摘要，恢复学习背景。 |
+| 查看长期进展 | 在本地仪表盘查看知识点状态、学习时长和复习记录。 |
+
+程序本身不调用模型 API，也不要求 API 密钥，需要配合你选择的 AI 工具使用。具备本地命令能力的 AI 助手负责档案操作；使用纯网页聊天教学时，由你上传必要交接和教材页，学完后带回报告归档。网页中的每句对话不会自动同步到本地，**保存后的学习事实会持续保留，并在后续会话中使用**。
+
+## 交给 AI 接手
+
+克隆项目后，在能操作本地文件和执行命令的 AI 编程助手中打开项目目录，对它说：
+
+> 阅读 AGENTS.md 和 docs/AI_QUICKSTART.md，帮我建立并维护自己的学习档案。先检查环境和已有数据库；新项目在 .local/studyos 初始化。我会提供课件或学习报告。以后每次接手，先查我的学习进度、薄弱点和上次断点，再配合教学窗口继续辅导。真实学习后及时保存记录，不伪造成绩；学习内容和学习量由我决定。
+
+首次使用不需要继承作者的任何档案，也不要求你手写 JSON。AI 根据操作说明完成初始化，之后逐步接入你自己的教材和学习记录。
+
+## 安装与启动
+
+需要 Python 3.12 或更高版本，运行代码仅依赖 Python 标准库。
 
 ```sh
 git clone https://github.com/yangjutong233-sys/StudyOS-Learning-Core.git
@@ -22,90 +86,63 @@ cd StudyOS-Learning-Core
 python -m venv .venv
 ```
 
-激活环境 / Activate the environment:
+在 Windows PowerShell 中激活环境：
 
 ```powershell
-# Windows PowerShell
 .\.venv\Scripts\Activate.ps1
 ```
 
+在 macOS 或 Linux 中激活环境：
+
 ```sh
-# macOS / Linux
 source .venv/bin/activate
 ```
+
+安装并创建空的本地学习档案：
 
 ```sh
 python -m pip install -e .
 python tools/setup.py --root .local/studyos
 python -m studyos --root .local/studyos summary --json
 python -m studyos --root .local/studyos doctor --json
+```
+
+打开本地学习仪表盘：
+
+```sh
 python tools/dashboard.py --root .local/studyos --serve
 ```
 
-`setup.py` 只初始化全新空目录，启用自主学习和任意格式报告，生成科目交接；不会导入示例成绩、选择教材或确认学习时间。初始课表为空草案，真实时间由你提供并确认。再次运行会拒绝覆盖已有内容。
+初始化工具只接受全新空目录，不导入示例成绩、不选择教材，也不替你确认学习时间。初始课表为空草案，由你提供并确认实际可用时间。重复初始化会拒绝覆盖已有内容。
 
-`setup.py` initializes a new, empty directory, enables learner-directed workflows and reports in any format, and generates subject handoffs. It does not import example grades, choose textbooks, or confirm your schedule. The initial schedule is an empty draft. Re-running setup refuses to overwrite existing content.
+仪表盘只监听本机地址，服务模式支持补录已完成会话的学习时长。所有持久化学习数据保存在你选择的本地目录。
 
-仪表盘服务只监听本机地址；服务模式可补录已完成会话的时长，静态导出仅供查看。所有持久化学习数据保存在你选择的本地目录。
+## 当前支持范围
 
-The dashboard listens on localhost only. Service mode supports duration corrections for completed sessions; a static export is for viewing. Persistent learning data stays in the local directory you select.
+- 当前内置数学、计算机基础、英语、政治四个系统科目，对应 `math2`、`cs408`、`english1`、`politics101`。可在这些科目下登记自己的教材、大纲和知识点，任意自定义顶层科目尚未实现。
+- 当前业务时区固定为 `Asia/Shanghai`。
+- AI 通过档案查询和交接恢复学习背景；单次输入仍受所用模型上下文容量限制，教学效果也取决于模型、资料和记录质量。
+- 本地档案不会由程序主动发送到模型服务。你选择上传给外部 AI 的内容，适用相应服务的数据规则。
 
-## 直接交给 AI / Hand it to your AI
+## 文档与开发
 
-在克隆目录打开能执行本地命令的 AI 编程助手，把下面的话交给它：
-
-Open the cloned repository in an AI coding assistant with local command execution, then send:
-
-> 阅读 AGENTS.md 和 docs/AI_QUICKSTART.md。先检查环境和已有数据库；新项目按快速开始在 .local/studyos 初始化。我会提供自己的课件或学习报告。请保存真实学习事实，不伪造成绩，不替我制定每日学习量。教学在我选择的对话工具进行。
-
-> Read AGENTS.md and docs/AI_QUICKSTART.md. Check the environment and existing database first; initialize a new archive at .local/studyos using the quick start if needed. I will provide my own materials or learning reports. Preserve real learning facts, never invent grades, and let me choose my daily workload. Teaching happens in my chosen conversation tool.
-
-代码不调用模型 API，也不要求 API 密钥。纯网页聊天无法直接操作本机文件，需要你手动上传必要交接、材料页并带回报告。上传给外部 AI 的文件由你选择。
-
-The code makes no model API calls and requires no API key. A browser-only chat cannot operate local files: you manually share the relevant handoff and material excerpts, then bring the report back. You choose which files to share with external AI services.
-
-## 工作方式 / How it works
-
-| 流程 / Step | 行为 / Behavior |
-| --- | --- |
-| 学习 / Learn | 你决定内容、顺序、学习量；AI 使用你提供的必要材料。 / You choose content, order, and workload; AI uses the material excerpts you provide. |
-| 归档 / Archive | 任意格式报告原件先保存；未知日期、时长、原答留空。 / Preserve reports in their original format; leave unknown dates, durations, and verbatim answers empty. |
-| 待考核 / Await assessment | 已学不等于掌握，报告不授予 MASTERED。 / Learning reports record study, not independent mastery. |
-| 独立考核 / Assess | 先存蓝图，再记录真实独立作答和确认的时间。 / Save a blueprint before recording genuine independent answers and confirmed answer times. |
-| 复习 / Review | 自动提醒由你决定是否执行；每轮保留独立历史。 / You decide whether to act on reminders; every round has its own history. |
-| 接续 / Continue | 交接由程序生成，新会话先查数据库。 / Handoffs are generated; new sessions query the database first. |
-| 备份 / Back up | SQLite Backup API、哈希校验及独立恢复验证。 / SQLite Backup API, hash checks, and independent restore verification. |
-
-## 当前范围 / Current scope
-
-- 系统科目键为 `math2`、`cs408`、`english1`、`politics101`，对应数学、计算机基础、英语、政治；任意自定义顶层科目尚未实现。可在这些科目下登记自己的教材、大纲和知识点。
-- Current subject keys are `math2`, `cs408`, `english1`, and `politics101` for mathematics, computer science fundamentals, English, and politics. Arbitrary top-level subjects are not yet supported. Register your own catalogs and knowledge points within these subjects.
-- 当前业务时区固定为 `Asia/Shanghai`；跨时区配置尚未实现。
-- The business timezone is currently fixed to `Asia/Shanghai`; configurable timezones are not yet supported.
-- 默认复习间隔为完成日后 1/3/7/14/30/60/90 天；快速初始化为英语启用首次学习日 D0 的 1/3/7/14/30 偏移。规则按系列冻结，可通过 CLI 配置新系列。
-- Default review intervals are 1/3/7/14/30/60/90 days after completion. Quick setup enables English milestones at D0 + 1/3/7/14/30. Each series freezes its policy; CLI updates apply to new series.
-- 中文为主要 CLI 与界面语言；本介绍和快速使用说明提供英文。学习档案可靠性约束不能替代 AI 的语义判断。
-- CLI and interface text are primarily Chinese; this introduction and quick-start guidance are bilingual. Evidence safeguards do not replace the AI assistant's semantic judgment.
-
-## 文档与开发 / Documentation and development
-
-- [AI 接手规则 / Agent instructions](AGENTS.md)
-- [AI 快速接手 / AI quick start](docs/AI_QUICKSTART.md)
-- [CLI 契约 / CLI contract](docs/CLI.md)（中文 / Chinese）
-- [设计与数据边界 / Architecture and data boundaries](docs/ARCHITECTURE.md)
-- [运营技能 / Archive skill](skills/studyos/SKILL.md)
-- [贡献说明 / Contributing](CONTRIBUTING.md)
-- [隐私与发布检查 / Privacy and release checks](docs/PRIVACY.md)
+- [AI 接手规则](AGENTS.md)
+- [AI 快速接手指南](docs/AI_QUICKSTART.md)
+- [命令行契约](docs/CLI.md)
+- [设计与数据边界](docs/ARCHITECTURE.md)
+- [档案操作技能](skills/studyos/SKILL.md)
+- [贡献说明](CONTRIBUTING.md)
+- [隐私与发布检查](docs/PRIVACY.md)
 
 ```sh
 python -m unittest discover -s tests -v
-python tools/check_public_tree.py
+python tools/check_public_tree.py --all-history
 ```
 
-测试仅使用临时目录及合成数据；不会读取真实学习数据库。CI 在 Windows、Linux、macOS 上运行测试。
+测试仅使用临时目录和合成数据。持续集成覆盖 Windows、Linux、macOS 上的 Python 3.12、3.13。
 
-Tests use temporary directories and synthetic data, without reading real learning archives. CI runs the test suite on Windows, Linux, and macOS.
+本仓库只包含通用程序、文档、格式样例和合成测试，不包含作者的学习数据库、报告、教材、个人配置或历史快照。
 
-## 许可证 / License
+## 开源许可
 
-[MIT](LICENSE) · Copyright (c) 2026 yangjutong233-sys.
+[MIT 许可证](LICENSE) · 版权所有 © 2026 yangjutong233-sys。
