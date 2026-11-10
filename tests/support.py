@@ -11,7 +11,8 @@ class Case(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory(prefix='studyos-test-')
         self.addCleanup(self.temp.cleanup)
-        self.root=Path(self.temp.name)/'work'
+        # Match Store's canonical paths, including macOS /var -> /private/var aliases.
+        self.root=(Path(self.temp.name)/'work').resolve()
         self.store=Store(self.root,'2026-01-01T09:00:00+08:00')
         cfg=defaults()['materials']
         cfg['handoff_scopes']=[{'id':'linear','title':'合成线代','subject':'math2','catalog_id':'linear','directory':'subjects/linear'}]
