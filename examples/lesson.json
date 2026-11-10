@@ -1,0 +1,9 @@
+{
+  "request_id": "replace-with-unique-request",
+  "knowledge_id": "replace-with-imported-internal-id",
+  "goal": "按大纲目标学习",
+  "strategy": "针对已证实缺口讲解后独立练习",
+  "acceptance": "按真实大纲标准",
+  "next_task": "根据当前证据安排强化",
+  "unfinished_training": []
+}

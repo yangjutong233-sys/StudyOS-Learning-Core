@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "revision",
+    "root",
+    "subjects"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "root": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "subjects": {
+      "type": "object",
+      "required": [
+        "math2",
+        "cs408",
+        "english1",
+        "politics101"
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "request_id": "replace-with-unique-request",
+  "knowledge_id": "replace-with-imported-internal-id",
+  "assessment_id": "replace-with-assessment-id",
+  "question": "真实题面",
+  "answer": "用户原始答案",
+  "process": "用户原始过程",
+  "form": "recall",
+  "dimensions": [
+    "concept"
+  ],
+  "source": "codex_independent",
+  "confirmed": true,
+  "assistance": "NONE",
+  "evaluation": {
+    "result": "UNDETERMINED",
+    "basis": "待实际核验",
+    "reference": "真实评分标准",
+    "error_type": "UNKNOWN",
+    "error_reason": "尚未确定"
+  }
+}

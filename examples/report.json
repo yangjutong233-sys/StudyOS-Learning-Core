@@ -1,0 +1,36 @@
+{
+  "report_id": "replace-with-real-report-id",
+  "version": 1,
+  "task_id": "replace-with-task-id",
+  "task_version": 1,
+  "session_id": "replace-with-session-id",
+  "covered": [
+    "实际讲解内容"
+  ],
+  "checkpoint": "真实断点",
+  "unfinished_training": [
+    "真实未完成训练"
+  ],
+  "minutes": null,
+  "attempts": [
+    {
+      "id": "replace-with-attempt-id",
+      "question": "真实题面",
+      "answer": "用户原始作答",
+      "process": "真实过程",
+      "form": "application",
+      "dimensions": [
+        "concept"
+      ],
+      "assistance": "UNKNOWN",
+      "answer_seen": false,
+      "evaluation": {
+        "result": "UNDETERMINED",
+        "basis": "待核验",
+        "reference": "评分标准",
+        "error_reason": "待诊断",
+        "error_type": "UNKNOWN"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "request_id": "replace-with-unique-request",
+  "knowledge_id": "replace-with-imported-internal-id",
+  "blueprint": {
+    "criteria": "真实大纲标准",
+    "rationale": "解释为什么选择本题量和形式",
+    "min_attempts": 1,
+    "forms": [
+      "recall"
+    ],
+    "dimensions": [
+      "concept"
+    ],
+    "delay_days": 0
+  }
+}

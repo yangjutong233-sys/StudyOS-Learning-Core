@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "studyos-learning-core"
+version = "0.2.0"
+description = "Evidence-first personal learning archive and review CLI"
+requires-python = ">=3.12"
+dependencies = []
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/yangjutong233-sys/StudyOS-Learning-Core"
+Issues = "https://github.com/yangjutong233-sys/StudyOS-Learning-Core/issues"
+
+[project.scripts]
+studyos = "studyos.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+studyos = ["schema.sql"]

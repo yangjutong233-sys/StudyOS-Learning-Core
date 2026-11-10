@@ -1,0 +1,16 @@
+{
+  "request_id": "replace-with-unique-request",
+  "catalog": {
+    "id": "demo",
+    "subject": "math2",
+    "name": "仅示范格式，不是真实教材"
+  },
+  "points": [
+    {
+      "external_id": "DEMO-01",
+      "name": "示范知识点",
+      "criteria": "替换为现有大纲真实掌握标准",
+      "location": "替换为现有PDF物理页"
+    }
+  ]
+}
